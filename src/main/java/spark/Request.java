@@ -58,6 +58,7 @@ public class Request {
     private Session session = null;
     private boolean validSession = false;
 
+    private String pathName;
 
     /* Lazy loaded stuff */
     private String body = null;
@@ -553,6 +554,19 @@ public class Request {
      */
     void validSession(boolean validSession) {
         this.validSession = validSession;
+    }
+
+    /**
+     * Get defined path
+     * get `/search/:id` instead of `/search/123`
+     * @param pathName
+     */
+    public void pathName(String pathName) {
+        this.pathName = pathName;
+    }
+
+    public String pathName() {
+        return pathName != null ? this.pathName : "";
     }
 
 }

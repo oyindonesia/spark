@@ -19,6 +19,8 @@ package spark;
 
 import spark.utils.Wrapper;
 
+import java.util.Map;
+
 /**
  * RouteImpl is created from a path, acceptType and Route. This is encapsulate the information needed in the route
  * matcher in a single container.
@@ -69,9 +71,22 @@ public abstract class RouteImpl implements Route, Wrapper {
         return new RouteImpl(path, acceptType, route) {
             @Override
             public Object handle(Request request, Response response) throws Exception {
+                String pathName = pathIdentifier(request);
+                request.pathName(pathName);
                 return route.handle(request, response);
             }
         };
+    }
+
+    protected String pathIdentifier(Request request) {
+        String pathIdentifier = request.uri();
+        Map<String, String> params = request.params();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            pathIdentifier = pathIdentifier.replaceFirst(entry.getValue(), entry.getKey());
+        }
+        pathIdentifier = pathIdentifier.replaceAll("/", "_");
+        pathIdentifier = pathIdentifier.replaceAll(":", "");
+        return pathIdentifier;
     }
 
     /**
