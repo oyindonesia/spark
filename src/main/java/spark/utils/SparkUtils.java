@@ -16,8 +16,11 @@
  */
 package spark.utils;
 
+import spark.Request;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Some utility methods
@@ -50,4 +53,15 @@ public final class SparkUtils {
         return routePart.equals("*");
     }
 
+    public static String getPathName(Request request) {
+        String pathIdentifier = request.uri();
+        if(pathIdentifier == null) return "";
+        Map<String, String> params = request.params();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            pathIdentifier = pathIdentifier.replaceFirst(entry.getValue(), entry.getKey());
+        }
+        pathIdentifier = pathIdentifier.replaceAll("/", "_");
+        pathIdentifier = pathIdentifier.replaceAll(":", "");
+        return pathIdentifier;
+    }
 }

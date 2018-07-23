@@ -16,6 +16,8 @@
 */
 package spark;
 
+import spark.utils.SparkUtils;
+
 /**
  * A ResponseTransformerRouteImpl is built up by a path (for url-matching) and the
  * implementation of the 'render' method. ResponseTransformerRoute instead of
@@ -44,6 +46,7 @@ public abstract class ResponseTransformerRouteImpl extends RouteImpl {
 
             @Override
             public Object handle(Request request, Response response) throws Exception {
+                request.pathName(SparkUtils.getPathName(request));
                 return route.handle(request, response);
             }
         };
