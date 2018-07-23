@@ -80,7 +80,9 @@ public abstract class RouteImpl implements Route, Wrapper {
 
     protected String pathIdentifier(Request request) {
         String pathIdentifier = request.uri();
+        System.out.println("request uri "+ pathIdentifier);
         Map<String, String> params = request.params();
+        System.out.println("request params "+ params);
         for (Map.Entry<String, String> entry : params.entrySet()) {
             pathIdentifier = pathIdentifier.replaceFirst(entry.getValue(), entry.getKey());
         }
